@@ -8,7 +8,7 @@ General structure for an AngularJS + Polymer application
 Install Node.js and then:
 
 ```sh
-$ git clone git@github.com:nubo/whiteboard.git
+$ git clone git@github.com:amitit/angular-polymer-application.git
 $ cd whiteboard
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
