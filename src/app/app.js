@@ -20,18 +20,19 @@ angular.module('happyAppy', ['ui.router'])
 //        redirectTo: '/not-found'
 //      })
 
-    $urlRouterProvider.otherwise("/");
+
+    $urlRouterProvider.otherwise('/appy/choose');
 
     $stateProvider
       .state('app', {
-        url: "",
-        templateUrl: "app/app.tpl.html",
+        url: '/appy',
+        templateUrl: 'app/app.tpl.html',
         controller: 'MainCtrl'
       })
       .state('app.choose', {
-        url: '/',
+        url: '/choose',
         templateUrl: "app/choose.tpl.html",
-        controller: 'MainCtrl'
+        controller: 'ChooseCtrl'
       })
       .state('app.happy', {
         url: "/happy",
@@ -44,11 +45,14 @@ angular.module('happyAppy', ['ui.router'])
         controller: 'SadCtrl'
       })
   })
-
-  .controller('MainCtrl', function($scope, $rootScope, AppConfig) {
+  .controller('MainCtrl', function($scope, $rootScope, AppConfig, $location) {
+    console.log('main ctrl');
     $scope.state = AppConfig.attributeState;
+    $location.url('/appy/choose');
   })
-
+  .controller('ChooseCtrl', function($scope) {
+    console.log('choose ctrl');
+  })
   .controller('HappyCtrl', function($scope) {
     console.log('happy ctrl');
   })
