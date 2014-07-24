@@ -128,6 +128,16 @@ module.exports = function (grunt) {
             expand: true
           }
         ]
+      },
+      build_vendorhtml: {
+        files: [
+          {
+            src: [ '<%= vendor_files.html %>' ],
+            dest: '<%= build_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
       }
     },
     concurrent: {
@@ -340,7 +350,8 @@ module.exports = function (grunt) {
     'copy:build_vendor_assets',
     'copy:build_appjs',
     'copy:build_vendorjs',
-    'index:build',
+    'copy:build_vendorhtml',
+    'index:build'
   ]);
 }
 ;

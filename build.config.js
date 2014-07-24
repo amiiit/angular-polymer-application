@@ -60,16 +60,27 @@ module.exports = {
    */
   vendor_files: {
     js: [
+      'vendor/platform/platform.js',
       'vendor/angular/angular.js',
       'vendor/kineticjs/kinetic.js',
       'vendor/lodash/dist/lodash.js',
       'vendor/angular-route/angular-route.js'
     ],
+    html: [
+      'vendor/paper-*/paper-elements.html'
+    ],
     css: [
       'vendor/normalize.css/normalize.css'
     ],
     assets: [
-
+      'vendor/polymer/polymer.html',
+      'vendor/polymer/layout.html',
+      'vendor/polymer/polymer.js*',
+      'vendor/paper-*/paper-*.html',
+      'vendor/paper-*/paper-*.css',
+      'vendor/core-*/*.*',
+      'vendor/web-animations-js/web-animations.js',
+      'vendor/platform/platform*.*'
     ]
   }
 };

@@ -8,6 +8,7 @@
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 
+
   <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
   <link rel="stylesheet" type="text/css" href="<%= file %>"/>
   <% }); %>
@@ -15,6 +16,8 @@
   <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
   <script type="text/javascript" src="<%= file %>"></script>
   <% }); %>
+
+  <link rel="import" href="vendor/paper-elements/paper-elements.html">
 
 </head>
 
