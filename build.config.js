@@ -64,7 +64,7 @@ module.exports = {
       'vendor/angular/angular.js',
       'vendor/kineticjs/kinetic.js',
       'vendor/lodash/dist/lodash.js',
-      'vendor/angular-route/angular-route.js'
+      'vendor/angular-ui-router/release/angular-ui-router.js'
     ],
     html: [
       'vendor/paper-*/paper-elements.html'
@@ -78,7 +78,8 @@ module.exports = {
       'vendor/polymer/polymer.js*',
       'vendor/paper-*/paper-*.html',
       'vendor/paper-*/paper-*.css',
-      'vendor/core-*/*.*',
+      'vendor/core*/*.*',
+      'vendor/core*/**/*.*',
       'vendor/web-animations-js/web-animations.js',
       'vendor/platform/platform*.*'
     ]
