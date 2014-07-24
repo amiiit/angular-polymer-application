@@ -20,21 +20,26 @@ angular.module('happyAppy', ['ui.router'])
 //        redirectTo: '/not-found'
 //      })
 
-    $urlRouterProvider.otherwise("/appy/happy");
+    $urlRouterProvider.otherwise("/");
 
     $stateProvider
       .state('app', {
-        url: "/",
+        url: "",
         templateUrl: "app/app.tpl.html",
         controller: 'MainCtrl'
       })
+      .state('app.choose', {
+        url: '/',
+        templateUrl: "app/choose.tpl.html",
+        controller: 'MainCtrl'
+      })
       .state('app.happy', {
-        url: "happy",
+        url: "/happy",
         templateUrl: "app/happy.tpl.html",
         controller: 'HappyCtrl'
       })
       .state('app.sad', {
-        url: 'sad',
+        url: '/sad',
         templateUrl: 'app/sad.tpl.html',
         controller: 'SadCtrl'
       })
