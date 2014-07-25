@@ -64,6 +64,10 @@ module.exports = {
       'vendor/angular/angular.js',
       'vendor/kineticjs/kinetic.js',
       'vendor/lodash/dist/lodash.js',
+      'vendor/highcharts/adapters/standalone-framework.src.js',
+      'vendor/highcharts/highcharts.src.js',
+      'vendor/highcharts-ng/dist/highcharts-ng.js',
+      'vendor/highlightjs/highlight.pack.js',
       'vendor/angular-ui-router/release/angular-ui-router.js'
     ],
     html: [

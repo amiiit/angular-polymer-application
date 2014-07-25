@@ -1,25 +1,12 @@
 'use strict';
 
-angular.module('happyAppy', ['ui.router'])
+angular.module('happyAppy', ['ui.router', 'highcharts-ng'])
 
   .constant('AppConfig', {
     attributeState: 'happy'
   })
 
   .config(function($stateProvider, $urlRouterProvider) {
-//    $routeProvider
-//      .when('/smile', {
-//        controller: 'MainCtrl',
-//        templateUrl: 'app/app.tpl.html'
-//      })
-//      .when('/not-found', {
-//        controller: 'SadCtrl',
-//        templateUrl: 'app/not-found.tpl.html'
-//      })
-//      .otherwise({
-//        redirectTo: '/not-found'
-//      })
-
 
     $urlRouterProvider.otherwise('/appy/choose');
 
@@ -54,6 +41,43 @@ angular.module('happyAppy', ['ui.router'])
     console.log('choose ctrl');
   })
   .controller('HappyCtrl', function($scope) {
+    $scope.chartConfig = {
+      "options": {
+        "chart": {
+          "type": "areaspline"
+        },
+        "plotOptions": {
+          "series": {"stacking": ""}
+        }
+      },
+      "series": [
+        {
+          "name": "Some data",
+          "data": [1, 2, 4, 7, 3],
+          "id": "series-0"
+        },
+        {
+          "name": "Some data 3",
+          "data": [3, 1, null, 5, 2],
+          "connectNulls": true,
+          "id": "series-1"
+        },
+        {
+          "name": "Some data 2",
+          "data": [5, 2, 2, 3, 5],
+          "type": "column",
+          "id": "series-2"
+        },
+        {
+          "name": "My Super Column",
+          "data": [1, 1, 2, 3, 2],
+          "type": "column",
+          "id": "series-3"
+        }
+      ],
+      "title": {"text": "Happiness table"},
+      "credits": {"enabled": false},
+      "loading": false, "size": {}};
     console.log('happy ctrl');
   })
   .controller('SadCtrl', function($scope) {
