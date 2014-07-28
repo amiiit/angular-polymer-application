@@ -62,7 +62,6 @@ module.exports = {
     js: [
       'vendor/platform/platform.js',
       'vendor/angular/angular.js',
-      'vendor/kineticjs/kinetic.js',
       'vendor/lodash/dist/lodash.js',
       'vendor/highcharts/adapters/standalone-framework.src.js',
       'vendor/highcharts/highcharts.src.js',
@@ -77,6 +76,7 @@ module.exports = {
       'vendor/normalize.css/normalize.css'
     ],
     assets: [
+      'vendor/d3/d3.js',
       'vendor/polymer/polymer.html',
       'vendor/polymer/layout.html',
       'vendor/polymer/polymer.js*',

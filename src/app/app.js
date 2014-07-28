@@ -1,12 +1,15 @@
 'use strict';
 
-angular.module('happyAppy', ['ui.router', 'highcharts-ng'])
+
+angular.module('appy', ['ui.router', 'highcharts-ng'])
 
   .constant('AppConfig', {
     attributeState: 'happy'
   })
 
   .config(function($stateProvider, $urlRouterProvider) {
+
+    console.log('config');
 
     $urlRouterProvider.otherwise('/appy/choose');
 
@@ -32,10 +35,9 @@ angular.module('happyAppy', ['ui.router', 'highcharts-ng'])
         controller: 'SadCtrl'
       })
   })
-  .controller('MainCtrl', function($scope, $rootScope, AppConfig, $location) {
+  .controller('MainCtrl', function($scope, $rootScope, AppConfig) {
     console.log('main ctrl');
     $scope.state = AppConfig.attributeState;
-    $location.url('/appy/choose');
   })
   .controller('ChooseCtrl', function($scope) {
     console.log('choose ctrl');
@@ -215,5 +217,5 @@ angular.module('happyAppy', ['ui.router', 'highcharts-ng'])
   })
   .controller('SadCtrl', function($scope) {
     console.log('sad ctrl');
-
-  });
+  })
+;

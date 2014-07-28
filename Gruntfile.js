@@ -180,7 +180,7 @@ module.exports = function (grunt) {
       }
     },
     ngtemplates: {
-      happyAppy: {
+      appy: {
         src: 'app/**/*.tpl.html',
         dest: '<%= build_dir%>/<%= templates_file %>',
         cwd: 'src/'

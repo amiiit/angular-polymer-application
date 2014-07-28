@@ -8,7 +8,7 @@ describe('app', function () {
 
   var AppConfig;
 
-  beforeEach(module('happyAppy'));
+  beforeEach(module('appy'));
 
   it('should have a dummy test', (function () {
     expect(true).toBeTruthy();
