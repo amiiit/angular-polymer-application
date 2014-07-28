@@ -43,11 +43,8 @@ angular.module('appy').run(['$templateCache', function($templateCache) {
     "<section id=\"graphs\" class=\"well\">\n" +
     "  <h1>Basic Graphs</h1>\n" +
     "\n" +
-    "  <p>Basic line, area and bar charts can be composed together in the same chart.</p>\n" +
+    "  <p d3-bars bar-height=\"20\" bar-padding=\"5\" data=\"data\"></p>\n" +
     "\n" +
-    "\n" +
-    "\n" +
-    "  <!--<div d3-bars bar-height=\"20\" bar-padding=\"5\"></div>-->\n" +
     "\n" +
     "</section>\n" +
     "\n"

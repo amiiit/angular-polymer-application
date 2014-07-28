@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('appy', ['ui.router', 'highcharts-ng'])
+angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
 
   .constant('AppConfig', {
     attributeState: 'happy'
@@ -217,5 +217,13 @@ angular.module('appy', ['ui.router', 'highcharts-ng'])
   })
   .controller('SadCtrl', function($scope) {
     console.log('sad ctrl');
+
+    $scope.data = [
+      {name: "Greg", score: 98},
+      {name: "Ari", score: 96},
+      {name: 'Q', score: 75},
+      {name: "Loser", score: 48}
+    ];
+
   })
 ;
