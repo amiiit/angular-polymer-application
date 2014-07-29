@@ -70,7 +70,11 @@ module.exports = {
       'vendor/angular-ui-router/release/angular-ui-router.js'
     ],
     html: [
-      'vendor/paper-*/paper-elements.html'
+      'vendor/paper-elements/paper-elements.html',
+      "vendor/core-toolbar/core-toolbar.html",
+      "vendor/core-header-panel/core-header-panel.html",
+      "vendor/core-icons/core-icons.html",
+      "vendor/paper-icon-button/paper-icon-button.html"
     ],
     css: [
       'vendor/normalize.css/normalize.css'
