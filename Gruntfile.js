@@ -265,7 +265,6 @@ module.exports = function (grunt) {
   }
 
   function filterForHTML(files) {
-    console.log('filter for HTML', files);
     return files.filter(function (file) {
       return file.match(/\.html$/);
     });
