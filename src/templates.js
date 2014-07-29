@@ -41,10 +41,12 @@ angular.module('appy').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('app/sad.tpl.html',
     "<section id=\"graphs\" class=\"well\">\n" +
+    "\n" +
     "  <h1>Basic Graphs</h1>\n" +
     "\n" +
     "  <p d3-bars bar-height=\"20\" bar-padding=\"5\" data=\"data\"></p>\n" +
     "\n" +
+    "  <p funnel-chart width=\"600\" height=\"450\" bottom-pct=\"1/4\" data=\"conversions\"></p>\n" +
     "\n" +
     "</section>\n" +
     "\n"

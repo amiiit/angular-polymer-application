@@ -225,5 +225,15 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
       {name: "Loser", score: 48}
     ];
 
+    $scope.conversions = [
+      ['Mails sent', 1500],
+      ['Mails opened', 300],
+      ['Clicks', 150],
+      ['Sign ups', 50],
+      ['Donations', 25]
+
+
+    ];
+
   })
 ;
