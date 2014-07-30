@@ -16,6 +16,12 @@ p {
   border-radius: 20px;
   background-color: #eee;
 }
+#sad-graphs paper-button.start-job {
+  margin-left: 40%;
+}
+#sad-graphs paper-button.start-job.active {
+  background-color: #03a9f4;
+}
 
 body {
   font-family: sans-serif;
@@ -34,6 +40,12 @@ p {
   padding: 80px 20px;
   border-radius: 20px;
   background-color: #eee;
+}
+#sad-graphs paper-button.start-job {
+  margin-left: 40%;
+}
+#sad-graphs paper-button.start-job.active {
+  background-color: #03a9f4;
 }
 html,
 body {

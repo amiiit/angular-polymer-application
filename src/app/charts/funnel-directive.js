@@ -1,5 +1,5 @@
 angular.module('appy')
-  .directive('funnelChart', function(d3Service) {
+  .directive('funnelChart', function(d3Service, $window) {
     return {
       restrict: 'EA',
       scope: {
@@ -70,8 +70,14 @@ angular.module('appy')
           return trapezoids;
         };
 
-        var draw = function(elem, speed) {
-          console.log('draw', elem, speed);
+        var draw = function() {
+          d3Service.d3().then(executeDraw);
+        };
+
+        var executeDraw = function() {
+          var elem = element[0];
+          var speed = scope.speed || 200;
+          angular.element(elem).empty();
           var DEFAULT_SPEED = 2.5;
           speed = typeof speed !== 'undefined' ? speed : DEFAULT_SPEED;
 
@@ -93,9 +99,7 @@ angular.module('appy')
           var colorScale = d3.scale.category10();
 
           var paths = createPaths();
-          console.log('paths', paths);
           var drawTrapezoids = function(i) {
-            console.log('drawTrapezoids', i);
             var trapezoid = funnelSvg
               .append('svg:path')
               .attr('d', function(d) {
@@ -106,7 +110,6 @@ angular.module('appy')
             nextHeight = paths[i][[paths[i].length] - 1];
 
             var totalLength = trapezoid.node().getTotalLength();
-            console.log('totalLengt', totalLength);
             var transition = trapezoid
               .transition()
               .duration(totalLength / speed)
@@ -131,7 +134,6 @@ angular.module('appy')
               .attr("dominant-baseline", "middle")
               .attr("fill", "#fff");
 
-            console.log('i', i);
             if (i < paths.length - 1) {
               transition.each('end', function() {
                 drawTrapezoids(i + 1)
@@ -141,10 +143,26 @@ angular.module('appy')
           drawTrapezoids(0);
         };
 
-        d3Service.d3().then(function() {
-          draw(element[0], 200);
+
+        $window.onresize = function() {
+          scope.$apply();
+        };
+
+        scope.$watch(function() {
+          return angular.element($window)[0].innerWidth;
+        }, function() {
+          draw();
         });
-      }}
+
+        scope.$watch('data', function() {
+          draw();
+        }, true);
+
+        d3Service.d3().then(function() {
+          draw();
+        });
+      }
+    }
   })
   .controller('FunnelDiagramCtrl', function($scope) {
 
