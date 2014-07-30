@@ -4,7 +4,8 @@
 angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
 
   .constant('AppConfig', {
-    attributeState: 'happy'
+    attributeState: 'happy',
+    maxRecipentsToMailsDummyJob: Math.pow(10, 6)
   })
 
   .config(function($stateProvider, $urlRouterProvider) {
@@ -215,7 +216,7 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
     };
     console.log('happy ctrl');
   })
-  .controller('SadCtrl', function($scope) {
+  .controller('SadCtrl', function($scope, AppConfig, $interval) {
     console.log('sad ctrl');
     this.isMailingJobActive = false;
 
@@ -226,26 +227,55 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
       {name: "Loser", score: 48}
     ];
 
-    $scope.conversions = [
-      ['Recipients', 1],
-      ['Mails sent', 0],
-      ['Mails opened', 0],
-      ['Clicks', 0],
-      ['Sign ups', 0],
-      ['Donations', 0]
-    ];
+    var conversionsTemplate = [
+          ['Recipients', AppConfig.maxRecipentsToMailsDummyJob],
+          ['Mails sent', 0],
+          ['Mails opened', 0],
+          ['Clicks', 0],
+          ['Sign ups', 0],
+          ['Donations', 0]
+        ];
 
-    this.startMailingJob = function(){
+    var getRandomFinalState = function() {
+      var final = [];
+      _.forEach(conversionsTemplate, function(object, i) {
+        final.push([object[0], 0]);
+      });
+      final[0] = [final[0][0] /* key */, conversionsTemplate[0][1] /* value */];
+      for (var i = 1; i < final.length; i++) {
+        final[i] = [final[i][0], Math.round(Math.random() * final[i - 1][1])];
+      }
+      return final;
+    };
+
+    $scope.conversions = getRandomFinalState();
+
+    this.startMailingJob = function() {
       this.isMailingJobActive = true;
       console.log('start mailing job');
       startDynamicGrowth();
     };
 
+    this.jumpToEndState = function() {
+      var final = getRandomFinalState();
+      console.log('jumping to final', final);
+      $scope.conversions = final;
+    };
+
+
     var startDynamicGrowth = function() {
-      var final = [];
-      _.forEach($scope.conversions, function(value, key) {
-        console.log(value, key);
-      })
+      var INCREASE_STEP = 0.02;
+      var final = getRandomFinalState();
+      $interval(function() {
+        console.log('interval execution');
+        for (var i = 1; i < final.length; i++) {
+          if ($scope.conversions[i][1] > final[i][1]) {
+            var stepToIncrease = Math.round(final[i][1] * INCREASE_STEP);
+            console.log('setting value', [final[i][0], Math.min(final[i][1], final[i][1] + stepToIncrease)]);
+            $scope.conversions[i] = [final[i][0], Math.min(final[i], final[i] + stepToIncrease)]
+          }
+        }
+      }, 10, 0, true);
     };
 
   })

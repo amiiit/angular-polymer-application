@@ -156,7 +156,7 @@ angular.module('appy')
 
         scope.$watch('data', function() {
           draw();
-        });
+        }, true);
 
         d3Service.d3().then(function() {
           draw();
