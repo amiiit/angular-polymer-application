@@ -1,5 +1,5 @@
 angular.module('appy')
-  .directive('funnelChart', function(d3Service) {
+  .directive('funnelChart', function(d3Service, $window) {
     return {
       restrict: 'EA',
       scope: {
@@ -70,7 +70,10 @@ angular.module('appy')
           return trapezoids;
         };
 
-        var draw = function(elem, speed) {
+        var draw = function() {
+          var elem = element[0];
+          var speed = scope.speed || 200;
+          angular.element(elem).empty();
           console.log('draw', elem, speed);
           var DEFAULT_SPEED = 2.5;
           speed = typeof speed !== 'undefined' ? speed : DEFAULT_SPEED;
@@ -141,10 +144,26 @@ angular.module('appy')
           drawTrapezoids(0);
         };
 
-        d3Service.d3().then(function() {
-          draw(element[0], 200);
+
+        $window.onresize = function() {
+          scope.$apply();
+        };
+
+        scope.$watch(function() {
+          return angular.element($window)[0].innerWidth;
+        }, function() {
+          draw();
         });
-      }}
+
+        scope.$watch('data', function() {
+          draw();
+        });
+
+        d3Service.d3().then(function() {
+          draw();
+        });
+      }
+    }
   })
   .controller('FunnelDiagramCtrl', function($scope) {
 

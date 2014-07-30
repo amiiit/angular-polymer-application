@@ -230,7 +230,7 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
       ['Mails opened', 300],
       ['Clicks', 150],
       ['Sign ups', 50],
-      ['Sign ups', 40],
+      ['Donations', 25]
 
 
     ];
