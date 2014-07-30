@@ -217,6 +217,7 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
   })
   .controller('SadCtrl', function($scope) {
     console.log('sad ctrl');
+    this.isMailingJobActive = false;
 
     $scope.data = [
       {name: "Greg", score: 98},
@@ -226,14 +227,26 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
     ];
 
     $scope.conversions = [
-      ['Mails sent', 1500],
-      ['Mails opened', 300],
-      ['Clicks', 150],
-      ['Sign ups', 50],
-      ['Donations', 25]
-
-
+      ['Recipients', 1],
+      ['Mails sent', 0],
+      ['Mails opened', 0],
+      ['Clicks', 0],
+      ['Sign ups', 0],
+      ['Donations', 0]
     ];
+
+    this.startMailingJob = function(){
+      this.isMailingJobActive = true;
+      console.log('start mailing job');
+      startDynamicGrowth();
+    };
+
+    var startDynamicGrowth = function() {
+      var final = [];
+      _.forEach($scope.conversions, function(value, key) {
+        console.log(value, key);
+      })
+    };
 
   })
 ;

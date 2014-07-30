@@ -1,8 +1,13 @@
-<section id="graphs" class="well">
+<section id="sad-graphs" class="well" ng-controller="SadCtrl as sadCtrl">
 
   <h1>Basic Graphs</h1>
 
-  <p d3-bars bar-height="20" bar-padding="5" data="data"></p>
+  <paper-button raisedbutton="" class="start-job colored"
+                label="start mailing job" role="button" tabindex="0"
+                ng-class="{active : sadCtrl.isMailingJobActive}"
+                ng-click="sadCtrl.startMailingJob()"
+                aria-label="start mailing job">
+  </paper-button>
 
   <p funnel-chart width="600" height="450" bottom-pct="1/4" data="conversions"></p>
 
