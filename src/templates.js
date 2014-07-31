@@ -55,7 +55,7 @@ angular.module('appy').run(['$templateCache', function($templateCache) {
     "                aria-label=\"start mailing job\">\n" +
     "  </paper-button>\n" +
     "\n" +
-    "  <p funnel-chart width=\"600\" height=\"450\" bottom-pct=\"1/4\" data=\"conversions\"></p>\n" +
+    "  <p funnel-chart width=\"600\" height=\"600\" bottom-pct=\"1/4\" data=\"conversions\"></p>\n" +
     "\n" +
     "</section>\n" +
     "\n"

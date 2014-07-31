@@ -11,156 +11,97 @@ angular.module('appy')
       controller: 'FunnelDiagramCtrl',
       link: function(scope, element) {
 
-        var DEFAULT_HEIGHT = 400,
-          DEFAULT_WIDTH = 600,
-          DEFAULT_BOTTOM_PERCENT = 1 / 3,
-          area, prevBaseLength, nextBaseLength, nextLeftX, nextRightX, nextHeight;
-
-        scope.totalEngagement = 0;
-        for (var i = 0; i < scope.data.length; i++) {
-          scope.totalEngagement += scope.data[i][1];
-        }
-        scope.width = typeof scope.width !== 'undefined' ? scope.width : DEFAULT_WIDTH;
-        scope.height = typeof scope.height !== 'undefined' ? scope.height : DEFAULT_HEIGHT;
-        var bottomPct = typeof scope.bottomPct !== 'undefined' ? scope.bottomPct : DEFAULT_BOTTOM_PERCENT;
-
-        var _slope = 2 * scope.height / (scope.width - bottomPct * scope.width);
-        var _totalArea = (scope.width + bottomPct * scope.width) * scope.height / 2;
-
-        var getLabel = function(ind) {
-          /* Get label of a category at index 'ind' in this.data */
-          return scope.data[ind][0]
+        var prepareData = function(data) {
+          data.forEach(function(d, i) {
+            data[i].i = i;
+          });
+          return data;
         };
 
-        var getEngagementCount = function(ind) {
-          /* Get engagement value of a category at index 'ind' in this.data */
-          return scope.data[ind][1]
-        };
+        prepareData(scope.data);
 
-        var createPaths = function() {
-          /* Returns an array of points that can be passed into d3.svg.line to create a path for the funnel */
-          var trapezoids = [];
+        var executeDraw = function() {
+          console.log('executeDraw', scope.data);
+          angular.element(element).empty();
+          var svg = d3.select(element[0]).append('svg')
+            .attr('width', scope.width)
+            .attr('height', scope.height);
 
-          var findNextPoints = function(prevLeftX, prevRightX, prevHeight, dataInd) {
-            // reached end of funnel
-            if (dataInd >= scope.data.length) return;
+          var colorScale = d3.scale.category10();
 
-            // math to calculate coordinates of the next base
-            area = scope.data[dataInd][1] * _totalArea / scope.totalEngagement;
-            prevBaseLength = prevRightX - prevLeftX;
-            nextBaseLength = Math.sqrt((_slope * prevBaseLength * prevBaseLength - 4 * area) / _slope);
-            nextLeftX = (prevBaseLength - nextBaseLength) / 2 + prevLeftX;
-            nextRightX = prevRightX - (prevBaseLength - nextBaseLength) / 2;
-            nextHeight = _slope * (prevBaseLength - nextBaseLength) / 2 + prevHeight;
+          var maxAmount = d3.max(scope.data, function(d) {
+            return d.amount
+          });
+          var heightScale = d3.scale.linear()
+              .domain([0, maxAmount])
+              .range([0, scope.height])
+            ;
 
-            var points = [
-              [nextRightX, nextHeight]
-            ];
+          var xPosScale = d3.scale.linear()
+            .domain([0, scope.data.length])
+            .range([0, scope.width]);
 
-            points.push([prevRightX, prevHeight]);
-            points.push([prevLeftX, prevHeight]);
-            points.push([nextLeftX, nextHeight]);
-            points.push([nextRightX, nextHeight]);
-            trapezoids.push(points);
+          var rectWidth = scope.width / scope.data.length;
+          var labelLeftMarginPx = 5;
+          var middleLineY = scope.height / 2;
+          //stack squares from left to right
+          svg.selectAll('rect').data(scope.data).enter()
+            .append('rect')
+            .attr('width', rectWidth + 'px')
+            .attr('height', function(d) {
+              return heightScale(d.amount)
+            })
+            .attr('style', function(d) {
+              return [
+                  'fill: ' + colorScale(d.i)
+              ].join('; ')
+            })
+            .attr('transform', function(d) {
+              var translateX = xPosScale(d.i),
+                translateY = middleLineY - heightScale(d.amount) / 2;
+              return 'translate(' + translateX + ', ' + translateY + ')';
+            });
 
-            findNextPoints(nextLeftX, nextRightX, nextHeight, dataInd + 1);
-          };
+          svg.selectAll('text').data(scope.data).enter()
+            .append('text')
+            .attr('transform', function(d) {
+              var translateX = xPosScale(d.i) + 0 + labelLeftMarginPx;
+              return 'translate(' + translateX + ', ' + middleLineY + ')';
+            })
+            .attr('width', rectWidth - labelLeftMarginPx)
+            .attr('style', function(d) {
+              return [
+                'font-size: 16px'
+              ].join('; ')
+            })
+            .text(function(d) {
+              return d.title
+            });
 
-          findNextPoints(0, scope.width, 0, 0);
-          return trapezoids;
         };
 
         var draw = function() {
           d3Service.d3().then(executeDraw);
         };
 
-        var executeDraw = function() {
-          var elem = element[0];
-          var speed = scope.speed || 200;
-          angular.element(elem).empty();
-          var DEFAULT_SPEED = 2.5;
-          speed = typeof speed !== 'undefined' ? speed : DEFAULT_SPEED;
-
-          var funnelSvg = d3.select(elem).append('svg:svg')
-            .attr('width', scope.width)
-            .attr('height', scope.height)
-            .append('svg:g');
-
-          // Creates the correct d3 line for the funnel
-          var funnelPath = d3.svg.line()
-            .x(function(d) {
-              return d[0];
-            })
-            .y(function(d) {
-              return d[1];
-            });
-
-          // Automatically generates colors for each trapezoid in funnel
-          var colorScale = d3.scale.category10();
-
-          var paths = createPaths();
-          var drawTrapezoids = function(i) {
-            var trapezoid = funnelSvg
-              .append('svg:path')
-              .attr('d', function(d) {
-                return funnelPath([paths[i][0], paths[i][1], paths[i][2], paths[i][2], paths[i][1], paths[i][2]])
-              })
-              .attr('fill', '#fff');
-
-            nextHeight = paths[i][[paths[i].length] - 1];
-
-            var totalLength = trapezoid.node().getTotalLength();
-            var transition = trapezoid
-              .transition()
-              .duration(totalLength / speed)
-              .ease("linear")
-              .attr("d", function(d) {
-                return funnelPath(paths[i])
-              })
-              .attr("fill", function(d) {
-                return colorScale(i)
-              });
-
-            funnelSvg
-              .append('svg:text')
-              .text(getLabel(i) + ': ' + getEngagementCount(i))
-              .attr("x", function(d) {
-                return scope.width / 2
-              })
-              .attr("y", function(d) {
-                return (paths[i][0][1] + paths[i][1][1]) / 2
-              }) // Average height of bases
-              .attr("text-anchor", "middle")
-              .attr("dominant-baseline", "middle")
-              .attr("fill", "#fff");
-
-            if (i < paths.length - 1) {
-              transition.each('end', function() {
-                drawTrapezoids(i + 1)
-              })
-            }
-          };
-          drawTrapezoids(0);
-        };
-
-
-        $window.onresize = function() {
-          scope.$apply();
-        };
-
-        scope.$watch(function() {
-          return angular.element($window)[0].innerWidth;
-        }, function() {
-          draw();
-        });
+//
+//        $window.onresize = function() {
+//          scope.$apply();
+//        };
+//
+//        scope.$watch(function() {
+//          return angular.element($window)[0].innerWidth;
+//        }, function() {
+//          draw();
+//        });
 
         scope.$watch('data', function() {
           draw();
         }, true);
 
-        d3Service.d3().then(function() {
-          draw();
-        });
+//        d3Service.d3().then(function() {
+//          draw();
+//        });
       }
     }
   })
