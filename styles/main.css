@@ -16,6 +16,9 @@ p {
   border-radius: 20px;
   background-color: #eee;
 }
+#sad-graphs {
+  margin: 15px;
+}
 #sad-graphs paper-button.start-job {
   background-color: #03a9f4;
   margin-left: 40%;
@@ -41,6 +44,9 @@ p {
   padding: 80px 20px;
   border-radius: 20px;
   background-color: #eee;
+}
+#sad-graphs {
+  margin: 15px;
 }
 #sad-graphs paper-button.start-job {
   background-color: #03a9f4;
