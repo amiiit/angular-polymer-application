@@ -228,27 +228,15 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
     ];
 
     var conversionsTemplate = [
-          ['Recipients', AppConfig.maxRecipentsToMailsDummyJob],
-          ['Mails sent', 0],
-          ['Mails opened', 0],
-          ['Clicks', 0],
-          ['Sign ups', 0],
-          ['Donations', 0]
-        ];
+      {title: 'Recipients', amount: 538476},
+      {title: 'Mails sent', amount: 238476},
+      {title: 'Mails opened', amount: 174653},
+      {title: 'Clicks', amount: 24487},
+      {title: 'Sign ups', amount: 14304},
+      {title: 'Donations', amount: 957}
+    ];
 
-    var getRandomFinalState = function() {
-      var final = [];
-      _.forEach(conversionsTemplate, function(object, i) {
-        final.push([object[0], 0]);
-      });
-      final[0] = [final[0][0] /* key */, conversionsTemplate[0][1] /* value */];
-      for (var i = 1; i < final.length; i++) {
-        final[i] = [final[i][0], Math.round(Math.random() * final[i - 1][1])];
-      }
-      return final;
-    };
-
-    $scope.conversions = getRandomFinalState();
+    $scope.conversions = conversionsTemplate;
 
     this.startMailingJob = function() {
       this.isMailingJobActive = true;
