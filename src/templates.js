@@ -51,11 +51,14 @@ angular.module('appy').run(['$templateCache', function($templateCache) {
     "  <paper-button raisedbutton=\"\" class=\"start-job colored\"\n" +
     "                label=\"start mailing job\" role=\"button\" tabindex=\"0\"\n" +
     "                ng-class=\"{active : sadCtrl.isMailingJobActive}\"\n" +
-    "                ng-click=\"sadCtrl.jumpToEndState()\"\n" +
+    "                ng-click=\"sadCtrl.startMailingJob()\"\n" +
     "                aria-label=\"start mailing job\">\n" +
     "  </paper-button>\n" +
     "\n" +
-    "  <p funnel-chart width=\"600\" height=\"600\" bottom-pct=\"1/4\" data=\"conversions\"></p>\n" +
+    "  <funnel-chart\n" +
+    "    height=\"600\"\n" +
+    "    data=\"conversions\">\n" +
+    "  </funnel-chart>\n" +
     "\n" +
     "</section>\n" +
     "\n"

@@ -17,10 +17,11 @@ p {
   background-color: #eee;
 }
 #sad-graphs paper-button.start-job {
+  background-color: #03a9f4;
   margin-left: 40%;
 }
 #sad-graphs paper-button.start-job.active {
-  background-color: #03a9f4;
+  background-color: #a9a9a9;
 }
 
 body {
@@ -42,10 +43,11 @@ p {
   background-color: #eee;
 }
 #sad-graphs paper-button.start-job {
+  background-color: #03a9f4;
   margin-left: 40%;
 }
 #sad-graphs paper-button.start-job.active {
-  background-color: #03a9f4;
+  background-color: #a9a9a9;
 }
 html,
 body {

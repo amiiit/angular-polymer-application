@@ -219,6 +219,7 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
   .controller('SadCtrl', function($scope, AppConfig, $interval) {
     console.log('sad ctrl');
     this.isMailingJobActive = false;
+    var ctrl = this;
 
     $scope.data = [
       {name: "Greg", score: 98},
@@ -229,41 +230,65 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
 
     var conversionsTemplate = [
       {title: 'Recipients', amount: 538476},
-      {title: 'Mails sent', amount: 238476},
-      {title: 'Mails opened', amount: 174653},
-      {title: 'Clicks', amount: 24487},
-      {title: 'Sign ups', amount: 14304},
-      {title: 'Donations', amount: 957}
+      {title: 'Mails sent', amount: 0},
+      {title: 'Mails opened', amount: 0},
+      {title: 'Clicks', amount: 0},
+      {title: 'Sign ups', amount: 0},
+      {title: 'Donations', amount: 0}
     ];
 
-    $scope.conversions = conversionsTemplate;
+    $scope.conversions = angular.copy(conversionsTemplate);
 
     this.startMailingJob = function() {
+      if (this.isMailingJobActive){
+        console.log('job already in process');
+        return;
+      }
       this.isMailingJobActive = true;
-      console.log('start mailing job');
+      $scope.conversions = angular.copy(conversionsTemplate);
       startDynamicGrowth();
     };
 
     this.jumpToEndState = function() {
       var final = getRandomFinalState();
-      console.log('jumping to final', final);
       $scope.conversions = final;
     };
 
+    var getRandomFinalState = function() {
+      var final = conversionsTemplate.map(function(entry) {
+        return {title: entry.title}
+      });
+      final[0].amount = conversionsTemplate[0].amount;
+
+      for (var i = 1; i < final.length; i++) {
+        var lastAmount = final[i - 1].amount;
+        final[i].amount = Math.min(lastAmount, Math.round(Math.random() * lastAmount * 1.1));
+      }
+
+      return final;
+    };
+
+    var randomBoolean = function() {
+      return Math.random() > 0.5;
+    };
 
     var startDynamicGrowth = function() {
-      var INCREASE_STEP = 0.02;
+      var INCREASE_STEP = 0.002;
       var final = getRandomFinalState();
-      $interval(function() {
-        console.log('interval execution');
+      var intervalPromise = $interval(function() {
+        var isChange = false;
         for (var i = 1; i < final.length; i++) {
-          if ($scope.conversions[i][1] > final[i][1]) {
-            var stepToIncrease = Math.round(final[i][1] * INCREASE_STEP);
-            console.log('setting value', [final[i][0], Math.min(final[i][1], final[i][1] + stepToIncrease)]);
-            $scope.conversions[i] = [final[i][0], Math.min(final[i], final[i] + stepToIncrease)]
+          if ($scope.conversions[i].amount < final[i].amount) {
+            isChange = true;
+            var stepToIncrease = Math.max(1, Math.round(final[i].amount * INCREASE_STEP));
+            $scope.conversions[i].amount = Math.min(final[i].amount, $scope.conversions[i].amount + stepToIncrease);
           }
         }
-      }, 10, 0, true);
+        if (!isChange) {
+          $interval.cancel(intervalPromise);
+          ctrl.isMailingJobActive = false;
+        }
+      }, 10);
     };
 
   })

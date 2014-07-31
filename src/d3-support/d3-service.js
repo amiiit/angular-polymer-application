@@ -25,7 +25,6 @@ angular.module('d3', [])
 
       return {
         d3: function() {
-          console.log('loading d3');
           return d.promise;
         }
       };
