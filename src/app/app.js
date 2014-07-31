@@ -240,6 +240,10 @@ angular.module('appy', ['ui.router', 'highcharts-ng', 'd3'])
     $scope.conversions = angular.copy(conversionsTemplate);
 
     this.startMailingJob = function() {
+      if (this.isMailingJobActive){
+        console.log('job already in process');
+        return;
+      }
       this.isMailingJobActive = true;
       $scope.conversions = angular.copy(conversionsTemplate);
       startDynamicGrowth();
