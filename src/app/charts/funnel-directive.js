@@ -4,12 +4,15 @@ angular.module('appy')
       restrict: 'EA',
       scope: {
         data: '=',
-        width: '=',
-        height: '=',
-        bottomPct: '='
+        width: '=?',
+        height: '=?'
       },
       controller: 'FunnelDiagramCtrl',
       link: function(scope, element) {
+
+        if (!scope.width) {
+          scope.width = '' + element.parent()[0].offsetWidth;
+        }
 
         var prepareData = function(data) {
           data.forEach(function(d, i) {
@@ -18,10 +21,8 @@ angular.module('appy')
           return data;
         };
 
-        prepareData(scope.data);
-
         var executeDraw = function() {
-          console.log('executeDraw', scope.data);
+          prepareData(scope.data);
           angular.element(element).empty();
           var svg = d3.select(element[0]).append('svg')
             .attr('width', scope.width)
@@ -34,7 +35,7 @@ angular.module('appy')
           });
           var heightScale = d3.scale.linear()
               .domain([0, maxAmount])
-              .range([0, scope.height])
+              .range([20, scope.height])
             ;
 
           var xPosScale = d3.scale.linear()
@@ -84,16 +85,17 @@ angular.module('appy')
           d3Service.d3().then(executeDraw);
         };
 
-//
-//        $window.onresize = function() {
-//          scope.$apply();
-//        };
-//
-//        scope.$watch(function() {
-//          return angular.element($window)[0].innerWidth;
-//        }, function() {
-//          draw();
-//        });
+
+        $window.onresize = function() {
+          scope.$apply();
+        };
+
+        scope.$watch(function() {
+          return element.parent()[0].offsetWidth;
+        }, function(newWidth) {
+          scope.width = newWidth;
+          draw();
+        });
 
         scope.$watch('data', function() {
           draw();

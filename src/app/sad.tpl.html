@@ -5,11 +5,14 @@
   <paper-button raisedbutton="" class="start-job colored"
                 label="start mailing job" role="button" tabindex="0"
                 ng-class="{active : sadCtrl.isMailingJobActive}"
-                ng-click="sadCtrl.jumpToEndState()"
+                ng-click="sadCtrl.startMailingJob()"
                 aria-label="start mailing job">
   </paper-button>
 
-  <p funnel-chart width="600" height="600" bottom-pct="1/4" data="conversions"></p>
+  <funnel-chart
+    height="600"
+    data="conversions">
+  </funnel-chart>
 
 </section>
 
