@@ -51,7 +51,8 @@ module.exports = function (grunt) {
           '<%= build_dir %>/styles/main.css',
           '<%= vendor_files.js %>',
           '<%= build_dir %>/src/**/*.js',
-          '<%= vendor_files.css %>'
+          '<%= vendor_files.css %>',
+          '<%= vendor_files.html %>'
         ]
       }
     },
@@ -180,7 +181,7 @@ module.exports = function (grunt) {
       }
     },
     ngtemplates: {
-      happyAppy: {
+      appy: {
         src: 'app/**/*.tpl.html',
         dest: '<%= build_dir%>/<%= templates_file %>',
         cwd: 'src/'
@@ -263,6 +264,12 @@ module.exports = function (grunt) {
     });
   }
 
+  function filterForHTML(files) {
+    return files.filter(function (file) {
+      return file.match(/\.html$/);
+    });
+  }
+
   /**
    * The index.html template includes the stylesheet and javascript sources
    * based on dynamic names calculated in this Gruntfile. This task assembles
@@ -278,12 +285,17 @@ module.exports = function (grunt) {
       return file.replace(dirRE, '');
     });
 
+    var htmlFiles = filterForHTML(this.filesSrc).map(function (file) {
+      return file.replace(dirRE, '');
+    });
+
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
       process: function (contents, path) {
         return grunt.template.process(contents, {
           data: {
             scripts: jsFiles,
             styles: cssFiles,
+            htmls: htmlFiles,
             version: grunt.config('pkg.version')
           }
         });
@@ -333,7 +345,6 @@ module.exports = function (grunt) {
     'clean:test',
     'concurrent:test',
     'concat',
-    'autoprefixer',
     'protractor'
   ]);
 

@@ -62,17 +62,25 @@ module.exports = {
     js: [
       'vendor/platform/platform.js',
       'vendor/angular/angular.js',
-      'vendor/kineticjs/kinetic.js',
       'vendor/lodash/dist/lodash.js',
+      'vendor/highcharts/adapters/standalone-framework.src.js',
+      'vendor/highcharts/highcharts.src.js',
+      'vendor/highcharts-ng/dist/highcharts-ng.js',
+      'vendor/highlightjs/highlight.pack.js',
       'vendor/angular-ui-router/release/angular-ui-router.js'
     ],
     html: [
-      'vendor/paper-*/paper-elements.html'
+      'vendor/paper-elements/paper-elements.html',
+      "vendor/core-toolbar/core-toolbar.html",
+      "vendor/core-header-panel/core-header-panel.html",
+      "vendor/core-icons/core-icons.html",
+      "vendor/paper-icon-button/paper-icon-button.html"
     ],
     css: [
       'vendor/normalize.css/normalize.css'
     ],
     assets: [
+      'vendor/d3/d3.js',
       'vendor/polymer/polymer.html',
       'vendor/polymer/layout.html',
       'vendor/polymer/polymer.js*',
