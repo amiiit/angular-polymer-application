@@ -9,7 +9,7 @@ Install Node.js and then:
 
 ```sh
 $ git clone git@github.com:amitit/angular-polymer-application.git
-$ cd whiteboard
+$ cd angular-polymer-application
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
 $ bower install
