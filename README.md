@@ -8,7 +8,7 @@ General structure for an AngularJS + Polymer application
 Install Node.js and then:
 
 ```sh
-$ git clone git@github.com:amitit/angular-polymer-application.git
+$ git clone git@github.com:amiiit/angular-polymer-application.git
 $ cd angular-polymer-application
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
